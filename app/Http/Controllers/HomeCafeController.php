@@ -6,17 +6,13 @@ use Illuminate\Http\Request;
 
 class HomeCafeController extends Controller
 {
-    public function homePage()
-    {
-        return view('homePage');
-    }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function cafeIndex()
     {
-        //
+        return view('cafeIndex');
     }
 
     /**
