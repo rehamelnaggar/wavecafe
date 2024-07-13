@@ -31,14 +31,13 @@
             <!-- /menu footer buttons -->
           </div>
         </div>
+   
 
         <!-- top navigation -->
         @include('dashIncludes.topNavigation')
         <!-- /top navigation -->
-
-        <!-- page content -->
-        @include('dashIncludes.pageContent')
-        <!-- /page content -->
+      
+        @yield('content')
 
         <!-- footer content -->
         @include('dashIncludes.footerJs')

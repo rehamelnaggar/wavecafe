@@ -70,6 +70,7 @@ namespace App\Http\Controllers\Auth;
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
+                'active' => true,
             ]);
         }
     
