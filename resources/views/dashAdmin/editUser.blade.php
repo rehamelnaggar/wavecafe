@@ -1,4 +1,5 @@
-@extends('./layouts.mainDash')
+@extends('layouts.mainDash')
+
 @section('content')
 <!-- page content -->
 <div class="right_col" role="main">
@@ -40,7 +41,7 @@
                     </div>
                     <div class="x_content">
                         <br />
-                        <form id="demo-form2" method="POST" action="{{ route('admin.updateUser', ['id' => $user->id]) }}" data-parsley-validate class="form-horizontal form-label-left">
+                        <form id="demo-form2" method="POST" action="{{ route('admin.updateUser', $user->id) }}" data-parsley-validate class="form-horizontal form-label-left">
                             @csrf
                             @method('PUT')
 
@@ -70,18 +71,24 @@
                                 <div class="col-md-6 col-sm-6">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="active" class="flat" {{ $user->active ? 'checked' : '' }}>
+                                        <input type="checkbox" name="active" class="flat" value="1" {{ $user->active ? 'checked' : '' }}>
                                         </label>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="password">Password <span class="required">*</span></label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input type="password" id="password" name="password" required="required" class="form-control">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="password">Password <span class="required">*</span></label>
+                               <div class="col-md-6 col-sm-6">
+                                 <input type="password" id="password" name="password" class="form-control">
+                               </div>
                                 </div>
-                            </div>
+
+                                <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-align" for="password_confirmation">Password Confirmation <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6">
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control">
+                                  </div>
+                                      </div>
 
                             <div class="ln_solid"></div>
                             <div class="item form-group">

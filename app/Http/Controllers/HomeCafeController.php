@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\DrinkCategory;
+use App\Models\Drink;
 class HomeCafeController extends Controller
 {
 
@@ -12,7 +13,9 @@ class HomeCafeController extends Controller
      */
     public function cafeIndex()
     {
-        return view('cafeIndex');
+        $categories = DrinkCategory::with('drinks')->get();
+        $specialItems = Drink::where('special', true)->take(6)->get();
+        return view('cafeIndex', compact('categories', 'specialItems'));
     }
 
     /**
@@ -20,7 +23,8 @@ class HomeCafeController extends Controller
      */
     public function create()
     {
-        //
+        $categories = DrinkCategory::all();
+        return view('addBeverage', compact('categories'));
     }
 
     /**
@@ -28,7 +32,26 @@ class HomeCafeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'required|exists:drink_categories,id',
+        ]);
+        $imagePath = $request->file('image')->store('images', 'public');
+
+        Drink::create([
+            'name' => $request->title,
+            'description' => $request->content,
+            'price' => $request->price,
+            'published' => $request->has('published'),
+            'special' => $request->has('special'),
+            'image' => $imagePath,
+            'category_id' => $request->category,
+        ]);
+
+        return redirect()->route('admin.addBeverageView')->with('success', 'Beverage added successfully!');
     }
 
     /**

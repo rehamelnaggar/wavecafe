@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
-     /*
+    /*
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
@@ -27,8 +30,22 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/users';
+    protected function redirectTo()
+    {
+        return '/admin.users';
+    }
 
+    public function login(Request $request)
+    {
+        $username = $request->input('username');
+        $password = $request->input('password');
+    
+        if (Auth::attempt(['username' => $username, 'password' => $password])) {
+            return redirect()->route('admin.users');
+        }
+    
+        // ...
+    }
     /**
      * Create a new controller instance.
      *
@@ -37,18 +54,26 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
     }
 
     /**
-     * Get the login credentials to be used by the controller.
+     * Show the application's login form.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return \Illuminate\View\View
      */
-    protected function credentials(Request $request)
+    public function showLoginForm()
     {
-        return $request->only('username', 'password');
+        return view('auth.dashLogin');
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 
     /**
@@ -57,6 +82,8 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
+
+   
     protected function validateLogin(Request $request)
     {
         $request->validate([
@@ -72,26 +99,40 @@ class LoginController extends Controller
      * @return bool
      */
     protected function attemptLogin(Request $request)
-    {
+    { 
+        $credentials = $this->credentials($request);
         return $this->guard()->attempt(
-            $this->credentials($request), $request->filled('remember')
+            $credentials,
+            $request->filled('remember')
         );
     }
 
     /**
-     * Show the application's login form.
+     * Get the needed authorization credentials from the request.
      *
-     * @return \Illuminate\View\View
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
      */
-    public function showLoginForm()
+    protected function credentials(Request $request)
     {
-        return view('auth.dashLogin');
+        return [
+            'username' => $request->get('username'),
+            'password' => $request->get('password'),
+        ];
     }
-    public function authenticated(Request $request, $user)
-    {
-        // Set session variables
-        Session::put('username', $user->username);
-        Session::put('name', $user->name);
 
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

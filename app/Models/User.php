@@ -30,6 +30,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'username',
         'password',
         'remember_token',
     ];
@@ -39,22 +40,21 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'username',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
      /**
      * Hash the password attribute.
      *
      * @param  string  $value
      * @return void
      */
-    public function setPasswordAttribute($value)
+    protected function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        if (!empty($value)) {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 }
+   

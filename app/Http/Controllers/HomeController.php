@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -35,36 +37,35 @@ class HomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(Request $request)
+    public function create()
     {
-        // Validate the request data
-        $request->validate([
+        return view('dashAdmin.addUser');
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'active' => 'boolean',
         ]);
-
-        // Create a new user instance
-        $user = new User();
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->active = $request->has('active');
-        $user->save();
-
-        // Redirect to the users list page with success message
-        return redirect()->route('admin.users')->with('success', 'User added successfully');
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        User::create([
+            'name' => $request->input('name'),
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'active' => $request->has('active') ? true : false, 
+        ]);
+    
+        return redirect()->route('admin.users')->with('success', 'User added successfully.');
     }
 
-    /**
-     * Show the form for editing the specified user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function edit($id)
     {
         // Retrieve the user from the database
@@ -83,27 +84,37 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,'.$id,
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'active' => 'boolean',
-        ]);
+        Log::info('Received update request', $request->all());       
 
-        // Retrieve the user from the database
-        $user = User::findOrFail($id);
+    // Validate the request data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'username' => 'required|string|max:255|unique:users,username,' . $id,
+        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        'active' => 'boolean',
+        'password' => 'nullable|string|min:8|confirmed',
+    ]);
 
-        // Update user data
-        $user->name = $request->input('name');
-        $user->username = $request->input('username');
-        $user->email = $request->input('email');
-        $user->active = $request->has('active');
-        // Update other fields as needed
+    Log::info('Validation passed');
 
-        $user->save();
+    // Retrieve the user from the database
+    $user = User::findOrFail($id);
+    Log::info('User found', ['user' => $user]);
 
-        // Redirect back to the users list page with success message
-        return redirect()->route('admin.users')->with('success', 'User updated successfully');
+    // Update user data
+    $user->name = $request->input('name');
+    $user->username = $request->input('username');
+    $user->email = $request->input('email');
+    $user->active = $request->boolean('active');
+
+    // Update other fields as needed
+    if ($request->filled('password')) {
+        $user->password = $request->input('password');
     }
+
+    $user->save();
+    Log::info('User updated', ['user' => $user]);
+
+    return redirect()->route('admin.users')->with('success', 'User updated successfully');
 }
+    }
