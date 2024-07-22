@@ -20,8 +20,8 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <form action="{{ route('admin.addBeverage') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
+                    <form action="{{ route('admin.addBeverage') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                             <div class="form-group">
                                 <label for="category_id">Category</label>
                                 <select name="category_id" id="category_id" class="form-control">

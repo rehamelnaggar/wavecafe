@@ -68,14 +68,16 @@
                             <td>${{ number_format($beverage->price, 2) }}</td>
                             <td>{{ $beverage->published ? 'Yes' : 'No' }}</td>
                             <td>{{ $beverage->special ? 'Yes' : 'No' }}</td>
-                            <td><a href="{{ route('admin.editBeverage', $beverage->id) }}"><img src="{{ asset(''dashAssets/images/edit.png') }}" alt="Edit"></a></td>
+                            <td> <a href="{{ route('admin.editBeverage', $beverage->id) }}">
+                            <img src="{{ asset('dashAssets/images/edit.png') }}" alt="Edit"></a></td>
+                            <td>
                             <td>
                               <form action="{{ route('admin.deleteBeverage', $beverage->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background: none; border: none;">
-                                  <img src="{{ asset(''dashAssets/images/delete.png') }}" alt="Delete">
-                                </button>
+                                 @csrf
+                               @method('DELETE')
+                                     <button type="submit" style="background: none; border: none;">
+                                      <img src="{{ asset('dashAssets/images/delete.png') }}" alt="Delete">
+                                 </button>
                               </form>
                             </td>
                           </tr>

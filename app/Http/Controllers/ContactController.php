@@ -50,4 +50,11 @@ class ContactController extends Controller
         //return back()->with('success', 'Your message has been sent successfully!');
         return "mail send";
     }
+    public function markAsRead(Request $request, $id)
+{
+    $contact = Contact::findOrFail($id);
+    $contact->update(['readable' => 1]);
+
+    return response()->json(['success' => true]);
+}
 }

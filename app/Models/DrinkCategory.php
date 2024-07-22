@@ -12,6 +12,6 @@ class DrinkCategory extends Model
 
     public function drinks()
     {
-        return $this->hasMany(Drink::class);
+        return $this->hasMany(Drink::class, 'category_id');
     }
 }
