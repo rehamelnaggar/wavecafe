@@ -59,7 +59,11 @@
                          <tr>
                            <td>{{ $email->name }}</td>
                            <td>{{ $email->email }}</td>
-                           <td><a href="{{ route('admin.showEmail', $email->id) }}" onclick="return confirm('Read?')"><img src="{{ asset('images/edit.png') }}" alt="Edit"></a></td>
+                           <td>
+                             <a href="{{ route('admin.showEmail', $email->id) }}" onclick="return confirm('Read?')">
+                               <img src="{{ asset('dashAssets/images/edit.png') }}" alt="Edit">
+                             </a>
+                           </td>
                            <td>
                              <form action="{{ route('admin.deleteEmail', $email->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this email?');">
                                @csrf

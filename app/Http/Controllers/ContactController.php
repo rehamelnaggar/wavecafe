@@ -11,17 +11,22 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $emails = Contact::get();
-        $messages = Contact::where('readable', 0)->take(3)->get();
-        return view('dashAdmin.contactMail', compact('emails', 'messages'));
+        $emails = Contact::all();
+        $messages = Contact::where('readable', 0)->get();
+        $messagesCount = $messages->count(); 
+    
+        return view('dashAdmin.contact', compact('emails', 'messages', 'messagesCount'));
     }
-
+    
     public function show(string $id)
     {
         $email = Contact::findOrFail($id);
-        $messages = Contact::where('readable', 0)->take(3)->get();
-        Contact::where('id', $id)->update(['readable' => 1]);
-        return view('dashAdmin.showEmail', compact('email', 'messages'));
+        $messages = Contact::where('readable', 0)->get();
+        $messagesCount = $messages->count(); 
+        
+        $email->update(['readable' => 1]);
+    
+        return view('dashAdmin.showEmail', compact('email', 'messages', 'messagesCount'));
     }
 
     public function store(Request $request)
@@ -50,11 +55,12 @@ class ContactController extends Controller
         //return back()->with('success', 'Your message has been sent successfully!');
         return "mail send";
     }
-    public function markAsRead(Request $request, $id)
-{
-    $contact = Contact::findOrFail($id);
-    $contact->update(['readable' => 1]);
 
-    return response()->json(['success' => true]);
-}
+    public function markAsRead(Request $request, $id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->update(['readable' => 1]);
+
+        return response()->json(['success' => true]);
+    }
 }
