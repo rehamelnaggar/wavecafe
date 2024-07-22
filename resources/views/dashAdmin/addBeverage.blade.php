@@ -64,7 +64,7 @@
               <div class="item form-group">
                 <label for="price" class="col-form-label col-md-3 col-sm-3 label-align">Price <span class="required">*</span></label>
                 <div class="col-md-6 col-sm-6 ">
-                  <input id="price" class="form-control" type="number" name="price" required="required">
+                  <input id="price" class="form-control" type="number" step="0.01" name="price" required="required">
                 </div>
               </div>
               <div class="item form-group">
@@ -84,10 +84,9 @@
                 </div>
               </div>
               <div class="item form-group">
-                <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image <span class="required">*</span>
-                </label>
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image</label>
                 <div class="col-md-6 col-sm-6 ">
-                  <input type="file" id="image" name="image" required="required" class="form-control">
+                  <input type="file" id="image" name="image" class="form-control">
                 </div>
               </div>
               <div class="item form-group">

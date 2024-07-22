@@ -52,6 +52,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/addBeverage', [DrinkController::class, 'storeBeverage'])->name('admin.addBeverage');
         Route::get('/beverages', [DrinkController::class, 'indexBeverage'])->name('admin.beverages');
         Route::get('/editBeverage/{id}', [DrinkController::class, 'editBeverage'])->name('admin.editBeverage');
+        Route::put('/beverages/{id}', [DrinkController::class, 'updateBeverage'])->name('admin.updateBeverage');
         Route::delete('/deleteBeverage/{id}', [DrinkController::class, 'deleteBeverage'])->name('admin.deleteBeverage');
         
         // Contact & Email

@@ -59,7 +59,7 @@
                                             @foreach($beverages as $beverage)
                                             <tr>
                                                 <td>{{ $beverage->created_at->format('d M Y') }}</td>
-                                                <td>{{ $beverage->category->name }}</td>
+                                                <td>{{ $beverage->name }}</td>
                                                 <td>{{ $beverage->published ? 'Yes' : 'No' }}</td>
                                                 <td><a href="{{ route('admin.editBeverage', $beverage->id) }}"><img src="{{ asset('dashAssets/images/edit.png') }}" alt="Edit"></a></td>
                                                 <td>
