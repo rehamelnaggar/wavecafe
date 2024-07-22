@@ -65,7 +65,7 @@
                                @csrf
                                @method('DELETE')
                                <button type="submit" style="background: none; border: none;">
-                                 <img src="{{ asset('images/delete.png') }}" alt="Delete">
+                                 <img src="{{ asset('dashAssets/images/delete.png') }}" alt="Delete">
                                </button>
                              </form>
                            </td>

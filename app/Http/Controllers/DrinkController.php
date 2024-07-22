@@ -134,25 +134,24 @@ class DrinkController extends Controller
     
         $drink = Drink::findOrFail($id);
     
-        $drink->category_id = $request->category_id;
-        $drink->name = $request->name;
-        $drink->description = $request->description;
-        $drink->price = $request->price;
-        $drink->special = $request->has('special');
+        $drink->name = $request->input('name');
+        $drink->description = $request->input('description');
+        $drink->price = $request->input('price');
         $drink->published = $request->has('published');
+        $drink->special = $request->has('special');
+        $drink->category_id = $request->input('category_id');
     
         if ($request->hasFile('image')) {
             if ($drink->image) {
-                $this->deleteFile($drink->image);
+                Storage::delete($drink->image);
             }
-            $drink->image = $this->upload($request->file('image'), 'images');
+            $drink->image = $request->file('image')->store('images');
         }
     
         $drink->save();
     
         return redirect()->route('admin.beverages')->with('success', 'Beverage updated successfully!');
     }
-
     public function deleteBeverage($id)
     {
         $beverage = Drink::findOrFail($id);
