@@ -41,10 +41,15 @@ Route::prefix('admin')->group(function () {
         Route::put('/updateUser/{id}', [HomeController::class, 'update'])->name('admin.updateUser');
         
         // Routes for managing beverages and categories
-        Route::get('/manageCategories', [DrinkController::class, 'manageCategories'])->name('admin.manageCategories');
+        Route::get('/addCategory', [DrinkController::class, 'showAddCategoryForm'])->name('admin.addCategoryForm');
         Route::post('/addCategory', [DrinkController::class, 'storeCategory'])->name('admin.addCategory');
-        Route::get('/addBeverage', [HomeCafeController::class, 'create'])->name('admin.beverageView');
-        Route::post('/addBeverage', [HomeCafeController::class, 'store'])->name('admin.addBeverage');
+        Route::get('/categories', [DrinkController::class, 'index'])->name('admin.categories');
+        Route::get('/category/{id}/edit', [DrinkController::class, 'editCategory'])->name('admin.editCategory');
+        Route::put('/category/{id}', [DrinkController::class, 'updateCategory'])->name('admin.updateCategory');
+        Route::delete('/category/{id}', [DrinkController::class, 'deleteCategory'])->name('admin.deleteCategory');
+        Route::get('/addBeverage', [DrinkController::class, 'showAddBeverageForm'])->name('admin.addBeverageForm');        
+        Route::post('/addBeverage', [DrinkController::class, 'storeBeverage'])->name('admin.addBeverage');
+        Route::get('/beverages', [DrinkController::class, 'index'])->name('admin.beverages');
         
         // Contact & Email
         Route::get('/contact', [ContactController::class, 'index'])->name('admin.contact');

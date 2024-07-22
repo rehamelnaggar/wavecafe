@@ -11,13 +11,13 @@
 								<li><a><i class="fa fa-edit"></i> Categories <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li><a href="{{ route('admin.addCategory') }}">Add Category</a></li>
-										<li><a href="{{ route('admin.manageCategories') }}">Categories List</a></li>
+										<li><a href="{{ route('admin.categories') }}">Categories List</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-desktop"></i> Beverages <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
 										<li><a href="{{ route('admin.addBeverage') }}">Add Beverage</a></li>
-										<li><a href="{{ route('admin.beverageView') }}">Beverages List</a></li>
+										<li><a href="{{ route('admin.beverages') }}">Beverages List</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-desktop"></i> Messages <span class="fa fa-chevron-down"></span></a>

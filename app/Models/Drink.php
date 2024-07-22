@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Drink extends Model
 {
-    protected $fillable = ['category_id', 
-                                  'name', 
-                                  'description', 
-                                  'price',
-                                  'special',
-                                  'published',
-                                  'image' ];
+    protected $fillable = [
+        'category_id',
+        'name',
+        'description',
+        'price',
+        'special',
+        'published',
+        'image'
+     ];
 
     public function category()
     {
