@@ -13,7 +13,7 @@ class ContactController extends Controller
     {
         $emails = Contact::get();
         $messages = Contact::where('readable', 0)->take(3)->get();
-        return view('dashAdmin.contact', compact('emails', 'messages'));
+        return view('dashAdmin.contactMail', compact('emails', 'messages'));
     }
 
     public function show(string $id)

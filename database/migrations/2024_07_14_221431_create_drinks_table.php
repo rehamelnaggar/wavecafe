@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
-            $table->boolean('special')->default(false);
+            $table->boolean('special')->default(false)->change();
             $table->boolean('published')->default(true);
             $table->string('image')->nullable();
             $table->timestamps();

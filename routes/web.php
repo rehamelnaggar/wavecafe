@@ -47,14 +47,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/category/{id}/edit', [DrinkController::class, 'editCategory'])->name('admin.editCategory');
         Route::put('/category/{id}', [DrinkController::class, 'updateCategory'])->name('admin.updateCategory');
         Route::delete('/category/{id}', [DrinkController::class, 'deleteCategory'])->name('admin.deleteCategory');
+
         Route::get('/addBeverage', [DrinkController::class, 'showAddBeverageForm'])->name('admin.addBeverageForm');
         Route::post('/addBeverage', [DrinkController::class, 'storeBeverage'])->name('admin.addBeverage');
-        Route::get('/beverages', [DrinkController::class, 'index'])->name('admin.beverages');
+        Route::get('/beverages', [DrinkController::class, 'indexBeverage'])->name('admin.beverages');
         Route::get('/editBeverage/{id}', [DrinkController::class, 'editBeverage'])->name('admin.editBeverage');
         Route::delete('/deleteBeverage/{id}', [DrinkController::class, 'deleteBeverage'])->name('admin.deleteBeverage');
         
         // Contact & Email
-        Route::get('/contact', [ContactController::class, 'index'])->name('admin.contact');
+        Route::get('/contact', [ContactController::class, 'index'])->name('admin.contactMail');
         Route::post('/contact/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.markAsRead');
         Route::get('/showEmail/{id}', [ContactController::class, 'show'])->name('admin.showEmail');
     });

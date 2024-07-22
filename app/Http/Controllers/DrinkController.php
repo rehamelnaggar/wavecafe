@@ -84,9 +84,6 @@ public function deleteCategory($id)
         return view('dashAdmin.addBeverage', compact('categories'));
     }
 
-    /**
-     * Store a newly created beverage in storage.
-     */
     public function storeBeverage(Request $request)
     {
         $request->validate([
@@ -98,42 +95,37 @@ public function deleteCategory($id)
             'published' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         $drink = new Drink();
         $drink->category_id = $request->category_id;
         $drink->name = $request->name;
         $drink->description = $request->description;
         $drink->price = $request->price;
-        $drink->special = $request->special;
-        $drink->published = $request->published;
-
+        $drink->special = $request->has('special') ? true : false; 
+        $drink->published = $request->has('published') ? true : false; 
+    
         if ($request->hasFile('image')) {
             $imageName = time().'.'.$request->image->extension();  
             $path = $request->file('image')->storeAs('images', $imageName, 'public');
             $drink->image = $path;
         }
-
+    
         $drink->save();
-
+    
         return redirect()->route('admin.beverages')->with('success', 'Beverage added successfully!');
     }
-
-    /**
-     * Display a listing of beverages.
-     */
     public function indexBeverage()
-    {
-        $beverages = Drink::all();
-        return view('dashAdmin.beverages', compact('beverages'));
-    }
-    
+{
+    $beverages = Drink::with('category')->get();
+    return view('dashAdmin.beverages', compact('beverages'));
+}
     public function editBeverage($id)
     {
         $beverage = Drink::findOrFail($id);
         $categories = DrinkCategory::all();
         return view('dashAdmin.editBeverage', compact('beverage', 'categories'));
     }
-    
+
     public function deleteBeverage($id)
     {
         $beverage = Drink::findOrFail($id);
