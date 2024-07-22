@@ -43,8 +43,8 @@
                         <br />
                         <!-- Assuming you are passing the beverage data to this view -->
                         <form id="edit-form" action="{{ route('admin.updateBeverage', $beverage->id) }}" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
-                            @csrf
-                            @method('PUT')
+                         @csrf
+                          @method('PUT')
                             
                             <div class="item form-group">
                                 <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Title <span class="required">*</span></label>
@@ -86,7 +86,8 @@
                                 <div class="col-md-6 col-sm-6 ">
                                     <input type="file" id="image" name="image" class="form-control">
                                     @if($beverage->image)
-                                        <img src="{{ asset('assets/storage/' . $beverage->image) }}" alt="Current Image" style="max-width: 150px; max-height: 150px;">
+                                    <img src="{{ asset('assets/storage/' . $beverage->image) }}" alt="Current Image" style="max-width: 150px; max-height: 150px;">
+
                                     @endif
                                 </div>
                             </div>

@@ -125,33 +125,31 @@ class DrinkController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|between:0,99999999.99',            
+            'price' => 'required|numeric',
             'published' => 'nullable|boolean',
             'special' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category_id' => 'required|exists:drink_categories,id',
         ]);
-
+    
         $drink = Drink::findOrFail($id);
-
+    
         $drink->category_id = $request->category_id;
         $drink->name = $request->name;
         $drink->description = $request->description;
         $drink->price = $request->price;
         $drink->special = $request->has('special');
         $drink->published = $request->has('published');
-
+    
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($drink->image) {
                 $this->deleteFile($drink->image);
             }
-            // Upload new image
             $drink->image = $this->upload($request->file('image'), 'images');
         }
-
+    
         $drink->save();
-
+    
         return redirect()->route('admin.beverages')->with('success', 'Beverage updated successfully!');
     }
 
