@@ -36,8 +36,7 @@ class ContactController extends Controller
             'readable' => false,
         ]);
     
-        // إعادة التوجيه مع رسالة نجاح
-        return redirect()->back()->with('success', 'Message sent successfully!');
+        return 'add';
     }
 
 
