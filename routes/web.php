@@ -59,6 +59,8 @@ Route::prefix('admin')->group(function () {
         Route::get('contact', [ContactController::class, 'index'])->name('admin.contact');
         Route::get('contact/{id}', [ContactController::class, 'show'])->name('admin.showEmail');
         Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('admin.deleteEmail');
+        Route::get('/unread-messages-count', [ContactController::class, 'getUnreadMessagesCount'])->name('unreadMessagesCount');
+
 
     });
 });

@@ -26,69 +26,37 @@
                   </li>
   
                   <li role="presentation" class="nav-item dropdown open">
-                    <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                      <i class="fa fa-envelope-o"></i>
-                      <span class="badge bg-green">6</span>
-                    </a>
-                    <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                      <li class="nav-item">
-                        <a class="dropdown-item">
-                          <span class="image"><img src="{{ asset('dashAssets/images/img.jpg') }}" alt="Profile Image" /></span>
-                          <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                          </span>
-                          <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                          </span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="dropdown-item">
-                          <span class="image"><img src="{{ asset('dashAssets/images/img.jpg') }}" alt="Profile Image" /></span>
-                          <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                          </span>
-                          <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                          </span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="dropdown-item">
-                          <span class="image"><img src="{{ asset('dashAssets/images/img.jpg') }}" alt="Profile Image" /></span>
-                          <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                          </span>
-                          <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                          </span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="dropdown-item">
-                          <span class="image"><img src="{{ asset('dashAssets/images/img.jpg') }}" alt="Profile Image" /></span>
-                          <span>
-                            <span>John Smith</span>
-                            <span class="time">3 mins ago</span>
-                          </span>
-                          <span class="message">
-                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                          </span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <div class="text-center">
-                          <a class="dropdown-item">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
+    <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-envelope-o"></i>
+        <span class="badge bg-green">{{ $unreadMessagesCount }}</span>
+    </a>
+    <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
+        @forelse ($messages as $message)
+            <li class="nav-item">
+                <a class="dropdown-item" href="{{ route('admin.showEmail', $message->id) }}">
+                    <span class="image"><img src="{{ asset('dashAssets/images/img.jpg') }}" alt="Profile Image" /></span>
+                    <span>
+                        <span>{{ $message->name }}</span>
+                        <span class="time">{{ $message->created_at->format('d M Y H:i') }}</span>
+                    </span>
+                    <span class="message">
+                        {{ $message->message }}
+                    </span>
+                </a>
+            </li>
+        @empty
+            <li class="text-center">No new messages</li>
+        @endforelse
+        <li class="nav-item">
+            <div class="text-center">
+                <a class="dropdown-item" href="{{ route('admin.contact') }}">
+                    <strong>See All Alerts</strong>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </li>
+    </ul>
+</li>
                 </ul>
               </nav>
             </div>

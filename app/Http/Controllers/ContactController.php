@@ -12,7 +12,9 @@ class ContactController extends Controller
     public function index()
     {
         $messages = Contact::all();
-        return view('dashAdmin.contact', compact('messages'));
+        $unreadMessagesCount = Contact::where('readable', 0)->count(); 
+        return view('dashAdmin.contact', compact('messages', 'unreadMessagesCount'));
+
     }
     
     public function show(string $id)
@@ -57,8 +59,8 @@ class ContactController extends Controller
     public function markAsRead(Request $request, $id)
     {
         $contact = Contact::findOrFail($id);
-        $contact->update(['readable' => 1]);
-
+        $contact->update(['readable' => true]);
+    
         return response()->json(['success' => true]);
     }
     public function sendMessage(Request $request)
@@ -80,11 +82,25 @@ class ContactController extends Controller
         'messages' => $messages,
         'messagesCount' => $messagesCount
     ]);
-}
+    }
+
+    public function getUnreadMessagesCount()
+    {
+        $unreadMessagesCount = Contact::where('readable', false)->count();
+        return response()->json(['count' => $unreadMessagesCount]);
+    }
+
+    public function getUnreadMessages()
+    {
+        $messages = Contact::where('readable', false)->get();
+        return response()->json(['messages' => $messages]);
+    }
+
     public function destroy($id) 
     {
         Contact::destroy($id);
         return redirect()->route('admin.contact')->with('success', 'Message deleted successfully.');
     }
+   
 
 }

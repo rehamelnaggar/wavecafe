@@ -13,7 +13,7 @@ class HomeCafeController extends Controller
      */
     public function cafeIndex()
     {
-        $categories = DrinkCategory::with('drinks')->get();
+        $categories = DrinkCategory::with('drinks' ,)->get();
         $specialItems = Drink::where('special', true)->take(6)->get();
         return view('cafeIndex', compact('categories', 'specialItems'));
     }
