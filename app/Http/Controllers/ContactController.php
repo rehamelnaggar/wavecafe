@@ -11,20 +11,14 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $messages = Contact::where('readable', 0)->get();
-        $messagesCount = $messages->count();
-        return view('dashAdmin.contact', compact('messages', 'messagesCount'));
+        $messages = Contact::all();
+        return view('dashAdmin.contact', compact('messages'));
     }
     
     public function show(string $id)
     {
         $email = Contact::findOrFail($id);
-        $messages = Contact::where('readable', 0)->get();
-        $messagesCount = $messages->count(); 
-        
-        $email->update(['readable' => 1]);
-        
-        return view('dashAdmin.showEmail', compact('email', 'messages', 'messagesCount'));
+        return view('dashAdmin.showEmail', compact('email'));
     }
 
     public function store(Request $request)
@@ -34,14 +28,19 @@ class ContactController extends Controller
             'email' => 'required|email|max:100',
             'message' => 'required|string|max:1000',
         ]);
-
+    
+        // تحقق من البيانات التي يتم إرسالها
+        dd($request->all());
+    
+        // تخزين البيانات
         Contact::create([
             'name' => $request->name,
             'email' => $request->email,
             'message' => $request->message,
-            'readable' => false, 
+            'readable' => false,
         ]);
-
+    
+        // إعادة التوجيه مع رسالة نجاح
         return redirect()->back()->with('success', 'Message sent successfully!');
     }
 
@@ -82,9 +81,15 @@ class ContactController extends Controller
     $messages = Contact::where('readable', 0)->get();
     $messagesCount = $messages->count();
 
-    return redirect()->route('dashboard')->with([
+    return redirect()->route('dashAdmin')->with([
         'messages' => $messages,
         'messagesCount' => $messagesCount
     ]);
 }
+    public function destroy($id) 
+    {
+        Contact::destroy($id);
+        return redirect()->route('admin.contact')->with('success', 'Message deleted successfully.');
+    }
+
 }

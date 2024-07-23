@@ -56,8 +56,9 @@ Route::prefix('admin')->group(function () {
         Route::delete('/deleteBeverage/{id}', [DrinkController::class, 'deleteBeverage'])->name('admin.deleteBeverage');
         
         // Contact & Email
-        Route::get('/contact', [ContactController::class, 'index'])->name('admin.contact');
-        Route::post('/contact/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.markAsRead');
-        Route::get('/showEmail/{id}', [ContactController::class, 'show'])->name('admin.showEmail');
+        Route::get('contact', [ContactController::class, 'index'])->name('admin.contact');
+        Route::get('contact/{id}', [ContactController::class, 'show'])->name('admin.showEmail');
+        Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('admin.deleteEmail');
+
     });
 });
