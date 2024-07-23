@@ -189,6 +189,14 @@ class DrinkController extends Controller
         $unreadMessagesCount = Contact::where('readable', 0)->count();
         return view('products.index', compact('categories', 'beverages','messages','unreadMessagesCount'));
     }
+    public function indexCafe()
+    {
+        $specialItems = Drink::where('special', true)->get();
+        $fruitJuice = Drink::where('category_id', 1)->where('special', false)->get();
+        $hotCoffee = Drink::where('category_id', 2)->where('special', false)->get();
+        $icedCoffee = Drink::where('category_id', 3)->where('special', false)->get();
 
-  
+        return view('drinks.index', compact('specialItems', 'fruitJuice', 'hotCoffee','icedCoffee'));
+    }
 }
+  

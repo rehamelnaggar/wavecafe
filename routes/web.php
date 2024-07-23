@@ -14,6 +14,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Cafe Routes
+Route::get('/drinks', [DrinkController::class, 'cafeImdex']);
 Route::get('/cafeIndex', [HomeCafeController::class, 'cafeIndex'])->name('cafeIndex');
 Route::post('insertContact', [ContactController::class, 'store'])->name('insertContact');
 Route::post('insertContact', [ContactController::class, 'sendMail'])->name('insertContact');
