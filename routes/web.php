@@ -16,7 +16,7 @@ Route::get('/', function () {
 // Cafe Routes
 Route::get('/cafeIndex', [HomeCafeController::class, 'cafeIndex'])->name('cafeIndex');
 Route::post('insertContact', [ContactController::class, 'store'])->name('insertContact');
-Route::post('sendMail', [ContactController::class, 'sendMail'])->name('contact.sendMail');
+Route::post('insertContact', [ContactController::class, 'sendMail'])->name('insertContact');
 
 // Auth Routes
 Auth::routes(['verify' => true]);
