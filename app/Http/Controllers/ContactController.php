@@ -11,11 +11,9 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $emails = Contact::all();
         $messages = Contact::where('readable', 0)->get();
-        $messagesCount = $messages->count(); 
-    
-        return view('dashAdmin.contact', compact('emails', 'messages', 'messagesCount'));
+        $messagesCount = $messages->count();
+        return view('dashAdmin.contact', compact('messages', 'messagesCount'));
     }
     
     public function show(string $id)
@@ -25,22 +23,28 @@ class ContactController extends Controller
         $messagesCount = $messages->count(); 
         
         $email->update(['readable' => 1]);
-    
+        
         return view('dashAdmin.showEmail', compact('email', 'messages', 'messagesCount'));
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:100',
-            'email' => 'required|string|max:100',
-            'message' => 'required|string|max:250',
+            'email' => 'required|email|max:100',
+            'message' => 'required|string|max:1000',
         ]);
 
-        Contact::create($data);
+        Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'message' => $request->message,
+            'readable' => false, 
+        ]);
 
-        return 'add';
+        return redirect()->back()->with('success', 'Message sent successfully!');
     }
+
 
     public function sendMail(Request $request)
     {
@@ -63,4 +67,24 @@ class ContactController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function sendMessage(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'message' => 'required|string',
+    ]);
+
+    $message = new Contact();
+    $message->name = $request->input('name');
+    $message->message = $request->input('message');
+    $message->save();
+
+    $messages = Contact::where('readable', 0)->get();
+    $messagesCount = $messages->count();
+
+    return redirect()->route('dashboard')->with([
+        'messages' => $messages,
+        'messagesCount' => $messagesCount
+    ]);
+}
 }

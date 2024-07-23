@@ -55,17 +55,17 @@
                        </tr>
                      </thead>
                      <tbody>
-                       @foreach($emails as $email)
+                       @foreach($messages as $message)
                          <tr>
-                           <td>{{ $email->name }}</td>
-                           <td>{{ $email->email }}</td>
+                           <td>{{ $message->name }}</td>
+                           <td>{{ $message->email }}</td>
                            <td>
-                             <a href="{{ route('admin.showEmail', $email->id) }}" onclick="return confirm('Read?')">
+                             <a href="{{ route('admin.showEmail', $message->id) }}" onclick="return confirm('Read?')">
                                <img src="{{ asset('dashAssets/images/edit.png') }}" alt="Edit">
                              </a>
                            </td>
                            <td>
-                             <form action="{{ route('admin.deleteEmail', $email->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this email?');">
+                             <form action="{{ route('admin.deleteEmail', $message->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this email?');">
                                @csrf
                                @method('DELETE')
                                <button type="submit" style="background: none; border: none;">
