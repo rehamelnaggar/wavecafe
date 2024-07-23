@@ -14,13 +14,15 @@ class ContactController extends Controller
        
         $messages = Contact::all();
         $unreadMessagesCount = Contact::where('readable', 0)->count();
-        return view('dashAdmin.contact', compact('messages', 'unreadMessagesCount'));
+        return view('dashAdmin.contact', compact('messages','unreadMessagesCount'));
     }
     
     public function show(string $id)
     {
         $email = Contact::findOrFail($id);
-        return view('dashAdmin.showEmail', compact('email'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.showEmail', compact('email','messages','unreadMessagesCount'));
     }
 
     public function store(Request $request)
@@ -87,7 +89,7 @@ class ContactController extends Controller
     public function getUnreadMessagesCount()
     {
         $unreadMessagesCount = Contact::where('readable', false)->count();
-        return response()->json(['count' => $unreadMessagesCount]);
+        return response()->json(['unreadMessagesCount' => $unreadMessagesCount]);
     }
 
     public function getUnreadMessages()
