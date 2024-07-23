@@ -28,11 +28,7 @@ class ContactController extends Controller
             'email' => 'required|email|max:100',
             'message' => 'required|string|max:1000',
         ]);
-    
-        // تحقق من البيانات التي يتم إرسالها
-        dd($request->all());
-    
-        // تخزين البيانات
+        
         Contact::create([
             'name' => $request->name,
             'email' => $request->email,
