@@ -11,10 +11,10 @@ class ContactController extends Controller
 {
     public function index()
     {
+       
         $messages = Contact::all();
-        $unreadMessagesCount = Contact::where('readable', 0)->count(); 
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
         return view('dashAdmin.contact', compact('messages', 'unreadMessagesCount'));
-
     }
     
     public function show(string $id)

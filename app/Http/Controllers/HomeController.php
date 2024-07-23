@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Contact;
 
 class HomeController extends Controller
 {
@@ -28,7 +29,9 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('dashAdmin.users', compact('users'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.users', compact('users' ,'messages','unreadMessagesCount'));
     }
 
     /**

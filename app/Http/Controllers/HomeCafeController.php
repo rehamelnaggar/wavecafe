@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DrinkCategory;
 use App\Models\Drink;
+
 class HomeCafeController extends Controller
 {
 
