@@ -68,7 +68,18 @@
 						</div>
 					</div>
 
-				</div>
-			</div>
-			<!-- /page content -->
-            @endsection
+			@if (session('success'))
+                <p>{{ session('success') }}</p>
+            @endif
+
+            @php
+                $messages = session('messages', []);
+                $unreadMessagesCount = session('unreadMessagesCount', 0);
+            @endphp
+
+            <p>You have {{ $unreadMessagesCount }} unread messages.</p>
+
+        </div>
+    </div>
+    <!-- /page content -->
+@endsection

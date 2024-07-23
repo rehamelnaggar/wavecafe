@@ -42,7 +42,9 @@ class HomeController extends Controller
      */
     public function create()
     {
-        return view('dashAdmin.addUser');
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.addUser', compact('messages','unreadMessagesCount'));
     }
 
     public function store(Request $request)
@@ -73,9 +75,10 @@ class HomeController extends Controller
     {
         // Retrieve the user from the database
         $user = User::findOrFail($id);
-
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
         // Pass the user data to the edit view
-        return view('dashAdmin.editUser', compact('user'));
+        return view('dashAdmin.editUser', compact('user','messages','unreadMessagesCount'));
     }
 
     /**

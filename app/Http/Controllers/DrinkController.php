@@ -7,7 +7,7 @@ use App\Models\DrinkCategory;
 use App\Models\Drink;
 use App\Traits\Traits\UploadFile;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Contact;
 class DrinkController extends Controller
 {
     use UploadFile;
@@ -21,26 +21,35 @@ class DrinkController extends Controller
     public function index()
     {
         $categories = DrinkCategory::all();
-        return view('dashAdmin.categories', compact('categories'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.categories', compact('categories','messages','unreadMessagesCount'));
     }
 
     public function storeCategory(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $messages = Contact::all();
+    $unreadMessagesCount = Contact::where('readable', 0)->count();
 
-        DrinkCategory::create([
-            'name' => $request->name,
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('admin.categories')->with('success', 'Category added successfully!');
-    }
+    DrinkCategory::create([
+        'name' => $request->name,
+    ]);
 
+    session()->flash('messages', $messages);
+    session()->flash('unreadMessagesCount', $unreadMessagesCount);
+
+    return redirect()->route('admin.categories')->with('success', 'Category added successfully!');
+}
     public function editCategory($id)
     {
         $category = DrinkCategory::find($id);
-        return view('dashAdmin.editCategory', compact('category'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.editCategory', compact('category','messages','unreadMessagesCount'));
     }
 
     public function updateCategory(Request $request, $id)
@@ -75,13 +84,17 @@ class DrinkController extends Controller
     public function showAddBeverageForm()
     {
         $categories = DrinkCategory::all();
-        return view('dashAdmin.addBeverage', compact('categories'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.addBeverage', compact('categories','messages','unreadMessagesCount'));
     }
 
     public function indexBeverage()
     {
         $beverages = Drink::with('category')->get();
-        return view('dashAdmin.beverages', compact('beverages'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.beverages', compact('beverages','messages','unreadMessagesCount'));
     }
 
     public function storeBeverage(Request $request)
@@ -117,7 +130,9 @@ class DrinkController extends Controller
     {
         $beverage = Drink::findOrFail($id);
         $categories = DrinkCategory::all();
-        return view('dashAdmin.editBeverage', compact('beverage', 'categories'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('dashAdmin.editBeverage', compact('beverage', 'categories','messages','unreadMessagesCount'));
     }
 
     public function updateBeverage(Request $request, $id)
@@ -170,8 +185,9 @@ class DrinkController extends Controller
     {
         $categories = DrinkCategory::all();
         $beverages = Drink::with('category')->get(); 
-
-        return view('products.index', compact('categories', 'beverages'));
+        $messages = Contact::all();
+        $unreadMessagesCount = Contact::where('readable', 0)->count();
+        return view('products.index', compact('categories', 'beverages','messages','unreadMessagesCount'));
     }
 
   
