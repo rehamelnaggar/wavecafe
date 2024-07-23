@@ -152,6 +152,7 @@ class DrinkController extends Controller
     
         return redirect()->route('admin.beverages')->with('success', 'Beverage updated successfully!');
     }
+
     public function deleteBeverage($id)
     {
         $beverage = Drink::findOrFail($id);
@@ -164,4 +165,14 @@ class DrinkController extends Controller
         $beverage->delete();
         return redirect()->route('admin.beverages')->with('success', 'Beverage deleted successfully!');
     }
+
+    public function showProducts()
+    {
+        $categories = DrinkCategory::all();
+        $beverages = Drink::with('category')->get(); 
+
+        return view('products.index', compact('categories', 'beverages'));
+    }
+
+  
 }
