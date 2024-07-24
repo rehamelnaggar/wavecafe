@@ -14,10 +14,15 @@ class HomeCafeController extends Controller
      */
     public function cafeIndex()
     {
+        $icedCoffee = Drink::where('category_id', 1)->get(); 
+        $hotCoffee = Drink::where('category_id', 2)->get();
+        $fruitJuice = Drink::where('category_id', 3)->get();
+        $specialItems = Drink::where('special', true)->get();
         $categories = DrinkCategory::with('drinks' ,)->get();
         $specialItems = Drink::where('special', true)->take(6)->get();
-        return view('cafeIndex', compact('categories', 'specialItems'));
+        return view('cafeIndex', compact('categories', 'icedCoffee', 'hotCoffee', 'fruitJuice','specialItems'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +30,11 @@ class HomeCafeController extends Controller
     public function create()
     {
         $categories = DrinkCategory::all();
-        return view('addBeverage', compact('categories'));
+        $icedCoffee = Drink::where('category_id', 1)->get(); 
+        $hotCoffee = Drink::where('category_id', 2)->get();
+        $fruitJuice = Drink::where('category_id', 3)->get();
+        $specialItems = Drink::where('special', true)->get();
+        return view('addBeverage', compact('categories', 'icedCoffee', 'hotCoffee', 'fruitJuice','specialItems'));
     }
 
     /**
