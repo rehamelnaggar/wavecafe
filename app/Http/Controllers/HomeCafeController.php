@@ -15,15 +15,10 @@ class HomeCafeController extends Controller
     public function cafeIndex()
     {
         $categories = DrinkCategory::with('drinks' ,)->get();
-        $icedCoffee = Drink::where('category_id', 1)->get(); 
-        $hotCoffee = Drink::where('category_id', 2)->get();
-        $fruitJuice = Drink::where('category_id', 3)->get();
         $specialItems = Drink::where('special', true)->take(6)->get();
-        return view('cafeIndex', compact('categories', 'icedCoffee', 'hotCoffee', 'fruitJuice', 'specialItems'));
+        return view('cafeIndex', compact('categories', 'specialItems'));
     }
 
-
-    
     /**
      * Show the form for creating a new resource.
      */
