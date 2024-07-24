@@ -191,12 +191,13 @@ class DrinkController extends Controller
     }
     public function indexCafe()
     {
+        $categories = DrinkCategory::all(); 
+        $icedCoffee = Drink::where('category_id', 1)->get(); 
+        $hotCoffee = Drink::where('category_id', 2)->get();
+        $fruitJuice = Drink::where('category_id', 3)->get();
         $specialItems = Drink::where('special', true)->get();
-        $fruitJuice = Drink::where('category_id', 1)->where('special', false)->get();
-        $hotCoffee = Drink::where('category_id', 2)->where('special', false)->get();
-        $icedCoffee = Drink::where('category_id', 3)->where('special', false)->get();
-
-        return view('drinks.index', compact('specialItems', 'fruitJuice', 'hotCoffee','icedCoffee'));
-    }
+        
+        return view('drinks.index', compact('categories', 'icedCoffee', 'hotCoffee', 'fruitJuice','specialItems'));
+    
 }
-  
+}

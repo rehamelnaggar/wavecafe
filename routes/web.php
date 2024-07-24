@@ -62,6 +62,5 @@ Route::prefix('admin')->group(function () {
         Route::delete('contact/{id}', [ContactController::class, 'destroy'])->name('admin.deleteEmail');
         Route::get('/unread-messages-count', [ContactController::class, 'getUnreadMessagesCount'])->name('unreadMessagesCount');
 
-
     });
 });

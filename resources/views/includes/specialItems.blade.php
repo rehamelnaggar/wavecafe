@@ -9,15 +9,3 @@
         </div>
     @endforeach
 </div>
-
-
-
-
-
-
-
-
-
-
-
-              
